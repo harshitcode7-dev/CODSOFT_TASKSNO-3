@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - MarketHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+  <div class="card" style="max-width: 400px; width: 100%; padding: 40px;">
+    <div style="text-align: center; margin-bottom: 32px;">
+      <h1 style="font-size: 28px; font-weight: 700; color: var(--primary-color);">Market<span>Hub</span></h1>
+      <p style="color: var(--gray-600); margin-top: 8px;">Login to your account</p>
+    </div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" required placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" required placeholder="Enter your password">
+      </div>
+      <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
+          <input type="checkbox"> Remember me
+        </label>
+        <a href="#" style="font-size: 14px; color: var(--primary-color);">Forgot Password?</a>
+      </div>
+      <button type="submit" class="btn btn-primary-colored" style="width: 100%;">Login</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200);">
+      <p style="color: var(--gray-600);">Don't have an account? <a href="register.html" style="color: var(--primary-color); font-weight: 600;">Register</a></p>
+    </div>
+
+    <div id="alert" style="margin-top: 16px;"></div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

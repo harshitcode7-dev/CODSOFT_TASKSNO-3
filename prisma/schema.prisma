@@ -1,0 +1,230 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  password          String
+  role              String   // CANDIDATE, RECRUITER, ADMIN
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  candidateProfile  CandidateProfile?
+  recruiterProfile  RecruiterProfile?
+
+  @@index([email])
+}
+
+model CandidateProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  fullName          String
+  profilePhoto      String?
+  phone             String?
+  location          String
+  professionalHeadline String?
+  aboutMe           String?
+
+  linkedinUrl       String?
+  githubUrl         String?
+  portfolioUrl      String?
+
+  resumeUrl         String?
+  resumeFileName    String?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  applications      Application[]
+  savedJobs         SavedJob[]
+  skills            Skill[]
+  education         Education[]
+  experience        Experience[]
+
+  @@index([userId])
+}
+
+model RecruiterProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name              String
+  companyId         String
+  company           Company  @relation(fields: [companyId], references: [id])
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  jobs              Job[]
+
+  @@index([userId])
+  @@index([companyId])
+}
+
+model Company {
+  id                String   @id @default(cuid())
+  name              String   @unique
+  logo              String?
+  description       String?
+  industry          String?
+  companySize       String?
+  website           String?
+  location          String?
+  foundedYear       Int?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  recruiters        RecruiterProfile[]
+  jobs              Job[]
+
+  @@index([name])
+}
+
+model Job {
+  id                String   @id @default(cuid())
+  title             String
+  companyId         String
+  company           Company  @relation(fields: [companyId], references: [id])
+  recruiterId       String
+  recruiter         RecruiterProfile @relation(fields: [recruiterId], references: [id])
+
+  location          String
+  category          String?
+  jobType           String   // FULL_TIME, PART_TIME, INTERNSHIP, CONTRACT
+  workMode          String   // REMOTE, HYBRID, ON_SITE
+  experienceLevel   String   // FRESHER, ENTRY_LEVEL, MID_LEVEL, SENIOR_LEVEL, EXECUTIVE
+
+  minSalary         Int?
+  maxSalary         Int?
+  salaryCurrency    String   @default("USD")
+
+  description       String
+  responsibilities  String?
+  requirements      String?
+  benefits          String?
+
+  applicationDeadline DateTime?
+
+  isActive          Boolean  @default(true)
+  applicantCount    Int      @default(0)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  applications      Application[]
+  savedJobs         SavedJob[]
+
+  @@index([companyId])
+  @@index([recruiterId])
+  @@index([category])
+  @@index([location])
+  @@index([jobType])
+  @@index([workMode])
+  @@index([experienceLevel])
+  @@index([isActive])
+}
+
+model Application {
+  id                String           @id @default(cuid())
+  jobId             String
+  job               Job              @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidateId       String
+  candidate         CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  status            String           @default("APPLIED") // APPLIED, UNDER_REVIEW, SHORTLISTED, INTERVIEW, SELECTED, REJECTED
+  coverLetter       String?
+  expectedSalary    Int?
+  noticePeriod      String?
+
+  resumeUrl         String?
+  resumeFileName    String?
+
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@index([jobId])
+  @@index([candidateId])
+  @@index([status])
+}
+
+model SavedJob {
+  id                String           @id @default(cuid())
+  jobId             String
+  job               Job              @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidateId       String
+  candidate         CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime         @default(now())
+
+  @@index([jobId])
+  @@index([candidateId])
+}
+
+model Skill {
+  id                String           @id @default(cuid())
+  name              String
+  candidateId       String
+  candidate         CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime         @default(now())
+
+  @@index([candidateId])
+}
+
+model Education {
+  id                String           @id @default(cuid())
+  degree            String
+  field             String?
+  university        String
+  graduationYear    Int
+  candidateId       String
+  candidate         CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime         @default(now())
+
+  @@index([candidateId])
+}
+
+model Experience {
+  id                String           @id @default(cuid())
+  jobTitle          String
+  company           String
+  location          String?
+  startDate         DateTime
+  endDate           DateTime?
+  current           Boolean          @default(false)
+  description       String?
+  candidateId       String
+  candidate         CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime         @default(now())
+
+  @@index([candidateId])
+}
+
+model Notification {
+  id                String   @id @default(cuid())
+  userId            String
+  title             String
+  message           String
+  type              String
+  read              Boolean  @default(false)
+  link              String?
+
+  createdAt         DateTime @default(now())
+
+  @@index([userId])
+  @@index([read])
+}

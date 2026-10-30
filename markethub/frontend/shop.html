@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - MarketHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-top">
+      <div class="container">
+        <span>Welcome to MarketHub</span>
+        <div>
+          <a href="login.html">Login</a> | <a href="register.html">Register</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-main">
+      <div class="container">
+        <a href="index.html" class="logo">Market<span>Hub</span></a>
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search products...">
+          <button onclick="applyFilters()">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="header-actions">
+          <a href="cart.html" class="header-action">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span>Cart</span>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </a>
+          <a href="customer-dashboard.html" class="header-action">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+            <span>Account</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="shop.html" class="nav-link active">Shop</a></li>
+          <li class="nav-item"><a href="shop.html" class="nav-link">Categories</a></li>
+          <li class="nav-item"><a href="register.html" class="nav-link">Become a Seller</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Shop Section -->
+  <section class="section">
+    <div class="container">
+      <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 32px;">Shop Products</h1>
+
+      <!-- Filters -->
+      <div class="filter-section">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label>Category</label>
+            <select id="categoryFilter" onchange="applyFilters()">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Price Range</label>
+            <select id="priceFilter" onchange="applyFilters()">
+              <option value="">All Prices</option>
+              <option value="0-500">Under ₹500</option>
+              <option value="500-1000">₹500 - ₹1,000</option>
+              <option value="1000-5000">₹1,000 - ₹5,000</option>
+              <option value="5000-10000">₹5,000 - ₹10,000</option>
+              <option value="10000-999999">Above ₹10,000</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Sort By</label>
+            <select id="sortFilter" onchange="applyFilters()">
+              <option value="newest">Newest</option>
+              <option value="price_low">Price: Low to High</option>
+              <option value="price_high">Price: High to Low</option>
+              <option value="popularity">Popularity</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="grid grid-4" id="productsGrid">
+        <!-- Products will be loaded here -->
+      </div>
+
+      <!-- Loading -->
+      <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-state-icon">📦</div>
+        <p class="empty-state-text">No products found</p>
+        <button class="btn btn-primary-colored" onclick="resetFilters()">Clear Filters</button>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination">
+        <!-- Pagination will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 MarketHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>

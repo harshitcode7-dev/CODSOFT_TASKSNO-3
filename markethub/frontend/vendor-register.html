@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Become a Seller - MarketHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+  <div class="card" style="max-width: 700px; width: 100%; padding: 40px;">
+    <div style="text-align: center; margin-bottom: 32px;">
+      <h1 style="font-size: 28px; font-weight: 700; color: var(--primary-color);">Market<span>Hub</span></h1>
+      <p style="color: var(--gray-600); margin-top: 8px;">Become a Seller on MarketHub</p>
+    </div>
+
+    <form id="vendorRegisterForm">
+      <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-200);">Personal Information</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-control" id="firstName" required placeholder="First name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-control" id="lastName" required placeholder="Last name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" required placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone</label>
+        <input type="tel" class="form-control" id="phone" required placeholder="Enter your phone number">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" required placeholder="Create a password">
+      </div>
+
+      <h3 style="font-size: 20px; font-weight: 600; margin: 32px 0 24px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-200);">Business Information</h3>
+
+      <div class="form-group">
+        <label class="form-label">Business Name *</label>
+        <input type="text" class="form-control" id="businessName" required placeholder="Your business name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">GST Number</label>
+        <input type="text" class="form-control" id="gstNumber" placeholder="GSTIN (e.g., 29AAAC1234F1Z5)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">PAN Number</label>
+        <input type="text" class="form-control" id="panNumber" placeholder="PAN (e.g., AAAC1234A)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Business Description</label>
+        <textarea class="form-control" id="businessDescription" rows="3" placeholder="Describe your business"></textarea>
+      </div>
+
+      <h3 style="font-size: 20px; font-weight: 600; margin: 32px 0 24px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-200);">Business Address</h3>
+
+      <div class="form-group">
+        <label class="form-label">Address</label>
+        <input type="text" class="form-control" id="businessAddress" required placeholder="Business address">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input type="text" class="form-control" id="city" required placeholder="City">
+        </div>
+        <div class="form-group">
+          <label class="form-label">State</label>
+          <input type="text" class="form-control" id="state" required placeholder="State">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pincode</label>
+        <input type="text" class="form-control" id="pincode" required placeholder="Pincode">
+      </div>
+
+      <h3 style="font-size: 20px; font-weight: 600; margin: 32px 0 24px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-200);">Bank Details</h3>
+
+      <div class="form-group">
+        <label class="form-label">Bank Name</label>
+        <input type="text" class="form-control" id="bankName" placeholder="Bank name">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Account Number</label>
+          <input type="text" class="form-control" id="bankAccountNumber" placeholder="Bank account number">
+        </div>
+        <div class="form-group">
+          <label class="form-label">IFSC Code</label>
+          <input type="text" class="form-control" id="bankIfsc" placeholder="IFSC code">
+        </div>
+      </div>
+
+      <div style="margin-bottom: 24px;">
+        <label style="display: flex; align-items: start; gap: 8px; font-size: 14px;">
+          <input type="checkbox" required style="margin-top: 4px;">
+          <span>I agree to the <a href="#" style="color: var(--primary-color);">Seller Terms & Conditions</a> and <a href="#" style="color: var(--primary-color);">Privacy Policy</a></span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary-colored" style="width: 100%;">Submit Application</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200);">
+      <p style="color: var(--gray-600);">Already a seller? <a href="login.html" style="color: var(--primary-color); font-weight: 600;">Login</a></p>
+    </div>
+
+    <div id="alert" style="margin-top: 16px;"></div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/vendor-register.js"></script>
+</body>
+</html>

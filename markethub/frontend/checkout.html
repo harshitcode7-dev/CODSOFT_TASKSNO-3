@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - MarketHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-main">
+      <div class="container">
+        <a href="index.html" class="logo">Market<span>Hub</span></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Checkout Section -->
+  <section class="section">
+    <div class="container">
+      <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 32px;">Checkout</h1>
+
+      <!-- Progress Steps -->
+      <div style="display: flex; justify-content: space-between; margin-bottom: 40px; position: relative;">
+        <div style="position: absolute; top: 20px; left: 0; right: 0; height: 2px; background-color: var(--gray-200);"></div>
+        <div class="step" data-step="1" style="position: relative; z-index: 1; text-align: center;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary-color); color: var(--white); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600;">1</div>
+          <span style="font-size: 14px; font-weight: 600;">Address</span>
+        </div>
+        <div class="step" data-step="2" style="position: relative; z-index: 1; text-align: center;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--gray-300); color: var(--gray-600); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600;">2</div>
+          <span style="font-size: 14px; font-weight: 600;">Delivery</span>
+        </div>
+        <div class="step" data-step="3" style="position: relative; z-index: 1; text-align: center;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--gray-300); color: var(--gray-600); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600;">3</div>
+          <span style="font-size: 14px; font-weight: 600;">Payment</span>
+        </div>
+        <div class="step" data-step="4" style="position: relative; z-index: 1; text-align: center;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--gray-300); color: var(--gray-600); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600;">4</div>
+          <span style="font-size: 14px; font-weight: 600;">Confirm</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px;">
+        <!-- Checkout Form -->
+        <div>
+          <!-- Step 1: Address -->
+          <div class="card" style="padding: 24px; margin-bottom: 24px;" id="step1">
+            <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Delivery Address</h3>
+            <form id="addressForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Full Name *</label>
+                  <input type="text" class="form-control" id="fullName" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Mobile Number *</label>
+                  <input type="tel" class="form-control" id="mobileNumber" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">House/Flat No. *</label>
+                <input type="text" class="form-control" id="houseFlat" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Street/Area *</label>
+                <input type="text" class="form-control" id="street" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">City *</label>
+                  <input type="text" class="form-control" id="city" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">State *</label>
+                  <input type="text" class="form-control" id="state" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Pincode *</label>
+                <input type="text" class="form-control" id="pincode" required>
+              </div>
+              <button type="button" class="btn btn-primary-colored" onclick="goToStep(2)">Continue to Delivery</button>
+            </form>
+          </div>
+
+          <!-- Step 2: Delivery -->
+          <div class="card" style="padding: 24px; margin-bottom: 24px; display: none;" id="step2">
+            <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Delivery Options</h3>
+            <div style="margin-bottom: 24px;">
+              <label style="display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid var(--gray-300); border-radius: var(--border-radius); cursor: pointer; margin-bottom: 12px;">
+                <input type="radio" name="delivery" value="standard" checked>
+                <div>
+                  <div style="font-weight: 600;">Standard Delivery</div>
+                  <div style="font-size: 14px; color: var(--gray-600);">5-7 business days - Free</div>
+                </div>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid var(--gray-300); border-radius: var(--border-radius); cursor: pointer;">
+                <input type="radio" name="delivery" value="express">
+                <div>
+                  <div style="font-weight: 600;">Express Delivery</div>
+                  <div style="font-size: 14px; color: var(--gray-600);">2-3 business days - ₹99</div>
+                </div>
+              </label>
+            </div>
+            <button type="button" class="btn btn-primary-colored" onclick="goToStep(3)">Continue to Payment</button>
+            <button type="button" class="btn btn-secondary" style="margin-left: 12px;" onclick="goToStep(1)">Back</button>
+          </div>
+
+          <!-- Step 3: Payment -->
+          <div class="card" style="padding: 24px; margin-bottom: 24px; display: none;" id="step3">
+            <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Payment Method</h3>
+            <div style="margin-bottom: 24px;">
+              <label style="display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid var(--gray-300); border-radius: var(--border-radius); cursor: pointer; margin-bottom: 12px;">
+                <input type="radio" name="payment" value="cod" checked>
+                <div>
+                  <div style="font-weight: 600;">Cash on Delivery</div>
+                  <div style="font-size: 14px; color: var(--gray-600);">Pay when you receive your order</div>
+                </div>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid var(--gray-300); border-radius: var(--border-radius); cursor: pointer; margin-bottom: 12px;">
+                <input type="radio" name="payment" value="upi">
+                <div>
+                  <div style="font-weight: 600;">UPI Payment</div>
+                  <div style="font-size: 14px; color: var(--gray-600);">Pay using any UPI app</div>
+                </div>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid var(--gray-300); border-radius: var(--border-radius); cursor: pointer; margin-bottom: 12px;">
+                <input type="radio" name="payment" value="card">
+                <div>
+                  <div style="font-weight: 600;">Credit/Debit Card</div>
+                  <div style="font-size: 14px; color: var(--gray-600);">Pay using your card</div>
+                </div>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid var(--gray-300); border-radius: var(--border-radius); cursor: pointer;">
+                <input type="radio" name="payment" value="netbanking">
+                <div>
+                  <div style="font-weight: 600;">Net Banking</div>
+                  <div style="font-size: 14px; color: var(--gray-600);">Pay using your bank account</div>
+                </div>
+              </label>
+            </div>
+            <button type="button" class="btn btn-primary-colored" onclick="goToStep(4)">Review Order</button>
+            <button type="button" class="btn btn-secondary" style="margin-left: 12px;" onclick="goToStep(2)">Back</button>
+          </div>
+
+          <!-- Step 4: Confirm -->
+          <div class="card" style="padding: 24px; margin-bottom: 24px; display: none;" id="step4">
+            <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Review Your Order</h3>
+            <div id="orderSummary">
+              <!-- Order summary will be loaded here -->
+            </div>
+            <button type="button" class="btn btn-success" style="width: 100%; margin-top: 24px;" onclick="placeOrder()">Place Order</button>
+            <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 12px;" onclick="goToStep(3)">Back</button>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div>
+          <div class="card" style="padding: 24px; position: sticky; top: 100px;">
+            <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Order Summary</h3>
+            <div id="checkoutSummary">
+              <!-- Summary will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2024 MarketHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MarketHub - Shop from Multiple Sellers in One Place</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-top">
+      <div class="container">
+        <span>Welcome to MarketHub - Your Multi-Vendor Marketplace</span>
+        <div>
+          <a href="login.html">Login</a> | <a href="register.html">Register</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-main">
+      <div class="container">
+        <a href="index.html" class="logo">
+          Market<span>Hub</span>
+        </a>
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search for products, brands, and more...">
+          <button onclick="searchProducts()">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="header-actions">
+          <a href="shop.html" class="header-action">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            </svg>
+            <span>Shop</span>
+          </a>
+          <a href="cart.html" class="header-action">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span>Cart</span>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </a>
+          <a href="customer-dashboard.html" class="header-action">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+            <span>Account</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
+          <li class="nav-item"><a href="shop.html" class="nav-link">Shop</a></li>
+          <li class="nav-item"><a href="shop.html" class="nav-link">Categories</a></li>
+          <li class="nav-item"><a href="shop.html" class="nav-link">Deals</a></li>
+          <li class="nav-item"><a href="register.html" class="nav-link">Become a Seller</a></li>
+          <li class="nav-item"><a href="customer-dashboard.html" class="nav-link">Track Order</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Shop from Multiple Sellers in One Place</h1>
+      <p>Discover thousands of products from trusted vendors. Best prices, fast delivery, and secure payments.</p>
+      <div class="hero-buttons">
+        <a href="shop.html" class="btn btn-primary">Shop Now</a>
+        <a href="shop.html" class="btn btn-secondary">Explore Categories</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Shop by Category</h2>
+      <div class="grid grid-5" id="categoriesGrid">
+        <!-- Categories will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="section" style="background-color: var(--white);">
+    <div class="container">
+      <h2 class="section-title">Featured Products</h2>
+      <div class="grid grid-4" id="featuredProducts">
+        <!-- Products will be loaded here -->
+      </div>
+      <div style="text-align: center; margin-top: 32px;">
+        <a href="shop.html" class="btn btn-primary-colored">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top Vendors -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Top Vendors</h2>
+      <div class="grid grid-4" id="topVendors">
+        <!-- Vendors will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Deals Section -->
+  <section class="section" style="background-color: var(--white);">
+    <div class="container">
+      <h2 class="section-title">Flash Deals</h2>
+      <div class="grid grid-4" id="flashDeals">
+        <!-- Deals will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="section" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); color: var(--white);">
+    <div class="container" style="text-align: center;">
+      <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 16px;">Subscribe to Our Newsletter</h2>
+      <p style="margin-bottom: 24px; opacity: 0.9;">Get the latest deals and updates delivered to your inbox</p>
+      <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 12px;">
+        <input type="email" placeholder="Enter your email" style="flex: 1; padding: 12px 20px; border: none; border-radius: var(--border-radius);">
+        <button class="btn btn-primary" style="background-color: var(--secondary-color); color: var(--white);">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3>MarketHub</h3>
+          <p style="color: var(--gray-400); margin-bottom: 16px;">Your trusted multi-vendor marketplace for all your shopping needs.</p>
+          <div style="display: flex; gap: 12px;">
+            <a href="#" style="color: var(--gray-400);">Facebook</a>
+            <a href="#" style="color: var(--gray-400);">Twitter</a>
+            <a href="#" style="color: var(--gray-400);">Instagram</a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="shop.html">Categories</a></li>
+            <li><a href="register.html">Become a Seller</a></li>
+            <li><a href="customer-dashboard.html">Track Order</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Customer Service</h3>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Returns & Refunds</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact</h3>
+          <ul>
+            <li>Email: support@markethub.com</li>
+            <li>Phone: +91 98765 43210</li>
+            <li>Address: Bangalore, India</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 MarketHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

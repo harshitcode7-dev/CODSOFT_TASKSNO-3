@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Dashboard - MarketHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="dashboard-logo">
+        <h2>MarketHub</h2>
+        <p style="font-size: 12px; color: var(--gray-600); margin-top: 4px;">Vendor Portal</p>
+      </div>
+      <nav class="dashboard-nav">
+        <ul class="dashboard-nav-list">
+          <li class="dashboard-nav-item">
+            <a href="#" class="dashboard-nav-link active" data-section="dashboard">
+              <i>📊</i> Dashboard
+            </a>
+          </li>
+          <li class="dashboard-nav-item">
+            <a href="#" class="dashboard-nav-link" data-section="products">
+              <i>📦</i> Products
+            </a>
+          </li>
+          <li class="dashboard-nav-item">
+            <a href="#" class="dashboard-nav-link" data-section="add-product">
+              <i>➕</i> Add Product
+            </a>
+          </li>
+          <li class="dashboard-nav-item">
+            <a href="#" class="dashboard-nav-link" data-section="orders">
+              <i>📋</i> Orders
+            </a>
+          </li>
+          <li class="dashboard-nav-item">
+            <a href="#" class="dashboard-nav-link" data-section="earnings">
+              <i>💰</i> Earnings
+            </a>
+          </li>
+          <li class="dashboard-nav-item">
+            <a href="#" class="dashboard-nav-link" data-section="profile">
+              <i>👤</i> Profile
+            </a>
+          </li>
+          <li class="dashboard-nav-item">
+            <a href="#" class="dashboard-nav-link" onclick="logout()">
+              <i>🚪</i> Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h1 id="pageTitle">Vendor Dashboard</h1>
+        <div class="dashboard-header-actions">
+          <button class="btn btn-primary-colored" onclick="showSection('add-product')">Add New Product</button>
+        </div>
+      </div>
+
+      <!-- Dashboard Section -->
+      <div id="dashboardSection">
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <div class="stat-icon primary">💰</div>
+            <div class="stat-label">Total Sales</div>
+            <div class="stat-value" id="totalSales">₹0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon success">📦</div>
+            <div class="stat-label">Total Orders</div>
+            <div class="stat-value" id="totalOrders">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon warning">📦</div>
+            <div class="stat-label">Total Products</div>
+            <div class="stat-value" id="totalProducts">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon danger">⚠️</div>
+            <div class="stat-label">Low Stock</div>
+            <div class="stat-value" id="lowStock">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon primary">💵</div>
+            <div class="stat-label">Total Earnings</div>
+            <div class="stat-value" id="totalEarnings">₹0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon success">💳</div>
+            <div class="stat-label">Available Balance</div>
+            <div class="stat-value" id="availableBalance">₹0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Section -->
+      <div id="productsSection" style="display: none;">
+        <div class="dashboard-table-container">
+          <div class="dashboard-table-header">
+            <h3>My Products</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>SKU</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody">
+                <!-- Products will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Product Section -->
+      <div id="add-productSection" style="display: none;">
+        <div class="card" style="padding: 24px;">
+          <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Add New Product</h3>
+          <form id="addProductForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Product Name *</label>
+                <input type="text" class="form-control" id="productName" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">SKU *</label>
+                <input type="text" class="form-control" id="productSku" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category *</label>
+              <select class="form-control" id="productCategory" required>
+                <option value="">Select Category</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Price (₹) *</label>
+                <input type="number" class="form-control" id="productPrice" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Discount Price (₹)</label>
+                <input type="number" class="form-control" id="productDiscountPrice">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" id="productDescription" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Initial Stock *</label>
+              <input type="number" class="form-control" id="productStock" required>
+            </div>
+            <button type="submit" class="btn btn-success">Add Product</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Orders Section -->
+      <div id="ordersSection" style="display: none;">
+        <div class="dashboard-table-container">
+          <div class="dashboard-table-header">
+            <h3>Vendor Orders</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Date</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="vendorOrdersTableBody">
+                <!-- Orders will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Section -->
+      <div id="profileSection" style="display: none;">
+        <div class="profile-section">
+          <div class="profile-header">
+            <div class="profile-avatar" id="vendorAvatar">V</div>
+            <div class="profile-info">
+              <h2 id="vendorBusinessName">Business Name</h2>
+              <p id="vendorEmail">vendor@example.com</p>
+              <span class="role" id="vendorStatus">APPROVED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/vendor-dashboard.js"></script>
+</body>
+</html>

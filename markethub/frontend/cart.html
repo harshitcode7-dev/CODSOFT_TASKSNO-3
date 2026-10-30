@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - MarketHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-main">
+      <div class="container">
+        <a href="index.html" class="logo">Market<span>Hub</span></a>
+        <div class="header-actions">
+          <a href="cart.html" class="header-action">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span>Cart</span>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Cart Section -->
+  <section class="section">
+    <div class="container">
+      <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 32px;">Shopping Cart</h1>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px;">
+        <!-- Cart Items -->
+        <div>
+          <div id="cartItems">
+            <!-- Cart items will be loaded here -->
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">🛒</div>
+            <p class="empty-state-text">Your cart is empty</p>
+            <a href="shop.html" class="btn btn-primary-colored">Continue Shopping</a>
+          </div>
+
+          <!-- Loading -->
+          <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div>
+          <div class="card" style="padding: 24px; position: sticky; top: 100px;">
+            <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Order Summary</h3>
+
+            <div style="margin-bottom: 16px; display: flex; justify-content: space-between;">
+              <span>Subtotal</span>
+              <span id="subtotal">₹0</span>
+            </div>
+            <div style="margin-bottom: 16px; display: flex; justify-content: space-between;">
+              <span>Discount</span>
+              <span id="discount" style="color: var(--success-color);">-₹0</span>
+            </div>
+            <div style="margin-bottom: 16px; display: flex; justify-content: space-between;">
+              <span>Shipping</span>
+              <span id="shipping">₹0</span>
+            </div>
+            <div style="margin-bottom: 16px; display: flex; justify-content: space-between;">
+              <span>Tax (18%)</span>
+              <span id="tax">₹0</span>
+            </div>
+            <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--gray-200);">
+            <div style="margin-bottom: 24px; display: flex; justify-content: space-between; font-size: 20px; font-weight: 700;">
+              <span>Total</span>
+              <span id="total">₹0</span>
+            </div>
+
+            <!-- Coupon -->
+            <div style="margin-bottom: 24px;">
+              <label style="display: block; margin-bottom: 8px; font-weight: 600;">Coupon Code</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="couponCode" placeholder="Enter coupon code" style="flex: 1; padding: 10px; border: 1px solid var(--gray-300); border-radius: var(--border-radius);">
+                <button class="btn btn-primary-colored btn-sm" onclick="applyCoupon()">Apply</button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary-colored" style="width: 100%;" onclick="proceedToCheckout()">Proceed to Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 MarketHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>
