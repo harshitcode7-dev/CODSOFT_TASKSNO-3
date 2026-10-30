@@ -3,87 +3,77 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Briefcase, FileText, Bookmark, Clock, CheckCircle, XCircle, ArrowRight } from 'lucide-react'
+import { Briefcase, FileText, Bookmark, Clock, CheckCircle, ArrowRight, TrendingUp, Search, Plus } from 'lucide-react'
 import Navbar from '@/components/navbar/Navbar'
+
+const STATUS_STYLES: Record<string, string> = {
+  APPLIED: 'bg-blue-100 text-blue-700 border-blue-200',
+  UNDER_REVIEW: 'bg-yellow-100 text-yellow-700 border-yellow-200',
+  SHORTLISTED: 'bg-green-100 text-green-700 border-green-200',
+  INTERVIEW: 'bg-purple-100 text-purple-700 border-purple-200',
+  SELECTED: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+  REJECTED: 'bg-red-100 text-red-700 border-red-200',
+}
 
 export default function CandidateDashboard() {
   const router = useRouter()
   const [user, setUser] = useState<any>(null)
-  const [stats, setStats] = useState({
-    total: 0,
-    underReview: 0,
-    interviews: 0,
-    shortlisted: 0,
-  })
+  const [stats, setStats] = useState({ total: 0, underReview: 0, interviews: 0, shortlisted: 0 })
   const [recentApplications, setRecentApplications] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     checkAuth()
-    fetchDashboardData()
+    fetchData()
   }, [])
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/auth/me')
-      const data = await response.json()
-      if (!data.user || data.user.role !== 'CANDIDATE') {
-        router.push('/login')
-        return
-      }
+      const res = await fetch('/api/auth/me')
+      const data = await res.json()
+      if (!data.user || data.user.role !== 'CANDIDATE') { router.push('/login'); return }
       setUser(data.user)
-    } catch (error) {
-      router.push('/login')
-    }
+    } catch { router.push('/login') }
   }
 
-  const fetchDashboardData = async () => {
+  const fetchData = async () => {
     try {
-      const response = await fetch('/api/applications')
-      const data = await response.json()
+      const res = await fetch('/api/applications')
+      const data = await res.json()
       if (data.applications) {
-        setRecentApplications(data.applications.slice(0, 5))
+        const apps = data.applications
+        setRecentApplications(apps.slice(0, 5))
         setStats({
-          total: data.applications.length,
-          underReview: data.applications.filter((a: any) => a.status === 'UNDER_REVIEW').length,
-          interviews: data.applications.filter((a: any) => a.status === 'INTERVIEW').length,
-          shortlisted: data.applications.filter((a: any) => a.status === 'SHORTLISTED').length,
+          total: apps.length,
+          underReview: apps.filter((a: any) => a.status === 'UNDER_REVIEW').length,
+          interviews: apps.filter((a: any) => a.status === 'INTERVIEW').length,
+          shortlisted: apps.filter((a: any) => a.status === 'SHORTLISTED').length,
         })
       }
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error)
-    } finally {
-      setLoading(false)
-    }
+    } catch (e) { console.error(e) }
+    finally { setLoading(false) }
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'APPLIED':
-        return 'bg-blue-100 text-blue-800'
-      case 'UNDER_REVIEW':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'SHORTLISTED':
-        return 'bg-green-100 text-green-800'
-      case 'INTERVIEW':
-        return 'bg-purple-100 text-purple-800'
-      case 'SELECTED':
-        return 'bg-emerald-100 text-emerald-800'
-      case 'REJECTED':
-        return 'bg-red-100 text-red-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
+  const STAT_CARDS = [
+    { label: 'Total Applied', value: stats.total, icon: Briefcase, color: 'bg-blue-50', iconColor: 'text-blue-600' },
+    { label: 'Under Review', value: stats.underReview, icon: Clock, color: 'bg-yellow-50', iconColor: 'text-yellow-600' },
+    { label: 'Interviews', value: stats.interviews, icon: CheckCircle, color: 'bg-purple-50', iconColor: 'text-purple-600' },
+    { label: 'Shortlisted', value: stats.shortlisted, icon: TrendingUp, color: 'bg-green-50', iconColor: 'text-green-600' },
+  ]
+
+  const QUICK_ACTIONS = [
+    { href: '/jobs', icon: Search, label: 'Browse Jobs', desc: 'Find your next opportunity', color: 'bg-blue-600' },
+    { href: '/candidate/applications', icon: FileText, label: 'My Applications', desc: 'Track your progress', color: 'bg-violet-600' },
+    { href: '/candidate/saved-jobs', icon: Bookmark, label: 'Saved Jobs', desc: 'View bookmarked jobs', color: 'bg-emerald-600' },
+  ]
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="text-center py-12">Loading...</div>
+        <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+          <div className="w-10 h-10 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-500">Loading your dashboard…</p>
         </div>
       </div>
     )
@@ -93,146 +83,107 @@ export default function CandidateDashboard() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back, {user?.candidateProfile?.fullName || 'Candidate'}!
-          </h1>
-          <p className="text-gray-600 mt-2">Track your job applications and discover new opportunities</p>
+      {/* Header */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Welcome back, {user?.candidateProfile?.fullName?.split(' ')[0] || 'there'} 👋
+              </h1>
+              <p className="text-gray-500 mt-1">Track your applications and discover new opportunities</p>
+            </div>
+            <Link href="/jobs">
+              <button className="hidden sm:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl transition-colors text-sm shadow-sm">
+                <Plus className="h-4 w-4" />
+                Find Jobs
+              </button>
+            </Link>
+          </div>
         </div>
+      </div>
 
-        {/* Stats Cards */}
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Total Applications</p>
-                  <p className="text-3xl font-bold mt-2 text-gray-900">{stats.total}</p>
+      <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
+
+        {/* Stat Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {STAT_CARDS.map(card => (
+            <div key={card.label} className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm text-gray-500 font-medium">{card.label}</span>
+                <div className={`w-9 h-9 ${card.color} rounded-xl flex items-center justify-center`}>
+                  <card.icon className={`h-5 w-5 ${card.iconColor}`} />
                 </div>
-                <Briefcase className="h-10 w-10 text-blue-600" />
               </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Under Review</p>
-                  <p className="text-3xl font-bold mt-2 text-gray-900">{stats.underReview}</p>
-                </div>
-                <Clock className="h-10 w-10 text-yellow-600" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Interviews</p>
-                  <p className="text-3xl font-bold mt-2 text-gray-900">{stats.interviews}</p>
-                </div>
-                <CheckCircle className="h-10 w-10 text-purple-600" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Shortlisted</p>
-                  <p className="text-3xl font-bold mt-2 text-gray-900">{stats.shortlisted}</p>
-                </div>
-                <FileText className="h-10 w-10 text-green-600" />
-              </div>
-            </CardContent>
-          </Card>
+              <p className="text-3xl font-bold text-gray-900">{card.value}</p>
+            </div>
+          ))}
         </div>
 
         {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Link href="/jobs">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-4">
-                  <Briefcase className="h-8 w-8 text-blue-600" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900">Browse Jobs</h3>
-                    <p className="text-sm text-gray-600">Find your next opportunity</p>
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {QUICK_ACTIONS.map(action => (
+              <Link key={action.href} href={action.href}>
+                <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm card-hover flex items-center gap-4">
+                  <div className={`w-11 h-11 ${action.color} rounded-xl flex items-center justify-center shrink-0`}>
+                    <action.icon className="h-5 w-5 text-white" />
                   </div>
-                  <ArrowRight className="h-5 w-5 text-gray-400 ml-auto" />
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link href="/candidate/applications">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-4">
-                  <FileText className="h-8 w-8 text-blue-600" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900">My Applications</h3>
-                    <p className="text-sm text-gray-600">Track your progress</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm">{action.label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{action.desc}</p>
                   </div>
-                  <ArrowRight className="h-5 w-5 text-gray-400 ml-auto" />
+                  <ArrowRight className="h-4 w-4 text-gray-400 shrink-0" />
                 </div>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link href="/candidate/saved-jobs">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-4">
-                  <Bookmark className="h-8 w-8 text-blue-600" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900">Saved Jobs</h3>
-                    <p className="text-sm text-gray-600">View bookmarked jobs</p>
-                  </div>
-                  <ArrowRight className="h-5 w-5 text-gray-400 ml-auto" />
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+              </Link>
+            ))}
+          </div>
         </div>
 
         {/* Recent Applications */}
-        <Card>
-          <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle>Recent Applications</CardTitle>
-              <Link href="/candidate/applications">
-                <Button variant="outline" size="sm">View All</Button>
-              </Link>
-            </div>
-          </CardHeader>
-          <CardContent>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+          <div className="flex items-center justify-between p-6 border-b border-gray-50">
+            <h2 className="text-lg font-semibold text-gray-900">Recent Applications</h2>
+            <Link href="/candidate/applications">
+              <button className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 group">
+                View All
+                <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+            </Link>
+          </div>
+          <div className="p-6">
             {recentApplications.length === 0 ? (
-              <div className="text-center py-8 text-gray-600">
-                You haven't applied to any jobs yet.
-                <Link href="/jobs" className="text-blue-600 hover:underline ml-2">
-                  Browse jobs
+              <div className="text-center py-12">
+                <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Briefcase className="h-8 w-8 text-gray-300" />
+                </div>
+                <p className="text-gray-500 mb-3">You haven't applied to any jobs yet.</p>
+                <Link href="/jobs">
+                  <button className="text-sm text-blue-600 hover:underline font-medium">Browse Jobs →</button>
                 </Link>
               </div>
             ) : (
-              <div className="space-y-4">
-                {recentApplications.map((application) => (
-                  <div key={application.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{application.job?.title}</h3>
-                      <p className="text-sm text-gray-600">{application.job?.company?.name}</p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        Applied {new Date(application.createdAt).toLocaleDateString()}
+              <div className="space-y-3">
+                {recentApplications.map(app => (
+                  <div key={app.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-gray-900 text-sm truncate">{app.job?.title}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{app.job?.company?.name}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        Applied {new Date(app.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </p>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(application.status)}`}>
-                      {application.status.replace('_', ' ')}
+                    <span className={`badge border ${STATUS_STYLES[app.status] || 'bg-gray-100 text-gray-600 border-gray-200'} ml-4 shrink-0`}>
+                      {app.status.replace('_', ' ')}
                     </span>
                   </div>
                 ))}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+
       </div>
     </div>
   )

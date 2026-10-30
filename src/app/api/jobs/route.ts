@@ -23,14 +23,14 @@ export async function GET(request: NextRequest) {
 
     if (search) {
       where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { description: { contains: search, mode: 'insensitive' } },
-        { company: { name: { contains: search, mode: 'insensitive' } } },
+        { title: { contains: search } },
+        { description: { contains: search } },
+        { company: { name: { contains: search } } },
       ]
     }
 
     if (location) {
-      where.location = { contains: location, mode: 'insensitive' }
+      where.location = { contains: location }
     }
 
     if (jobType) {
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (category) {
-      where.category = { contains: category, mode: 'insensitive' }
+      where.category = { contains: category }
     }
 
     let orderBy: any = { createdAt: 'desc' }
